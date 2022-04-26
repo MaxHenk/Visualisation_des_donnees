@@ -1,20 +1,140 @@
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 10px;
   margin: 20px;
 }
 
-img {
-  max-width: 100%;
-}
-
 h1 {
-  margin: 0;
+  margin:  0;
   font-weight: normal;
 }
 
 h2 {
-  margin: 0;
+  margin:  1;
+  margin-top:  3 px;
   font-weight: normal;
-  font-size: 14px;
+  font-size:  12 px;
 }
+
+.main {
+  position: relative;
+}
+
+.carte-interactive {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 400px); 
+  height: calc(100vh - 110px);
+  min-height: 500px;
+  background-color: #999;
+  border: 1px solid #666;
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: calc(100vw - 395px);
+  width: 330px;
+  height: calc(100vh - 140px);
+  min-height: 470px;
+  background-color: #f0f0f0;
+  border: 1px solid #666;
+  padding: 15px;
+}
+
+
+.explication {
+  margin-top: 0;
+  font-size: 10px;
+}
+
+.infobox {
+  margin-top: 10px;
+}
+
+table {
+  font-size: 10px;
+}
+td {
+  min-width: 80px;
+}
+
+a {
+  text-decoration: none;
+  color: #008ccc;
+}
+
+a:visited {
+  color: #008ccc;
+}
+a:hover {
+  text-decoration: underline;
+  color: #006aaa;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 0;
+  font-size: 10 px;
+  margin-bottom: 7px;
+}
+
+#coordonnees {
+  position: absolute;
+  left: 0;
+  top: calc(100vh - 100px);
+  font-size: 10px;
+}
+
+.cols-2 {
+  position: relative;
+  height: 180px;
+}
+
+.cols-2 .left {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.cols-2 .right {
+  position: absolute;
+  left: 160px;
+  top: 0;
+}
+
+table {
+  font-size: 10 px;
+}
+
+td {
+  padding-left: 0;
+}
+
+td.label {
+  font-weight: bold;
+  padding-right: 2 px;
+  vertical-align: top;
+}
+
+path.actif {
+  stroke-width: 4px;
+}
+
+
+.highlight {
+  animation-name: highlightInfobox;
+  animation-duration: 1s;
+  animation-iteration-count: 3;
+}
+
+@keyframes highlightInfobox {
+  0%   { background-color: #f0f0f0; }
+  20%  { background-color: #d0d0d0; }
+  50%  { background-color: #d0d0d0; }
+  100% { background-color: #f0f0f0; }
+}
+
+
+
