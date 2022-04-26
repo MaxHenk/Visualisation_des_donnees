@@ -1,15 +1,12 @@
 <!--Elections françaises - Max Henking et Axelle Bersier - Juin 2022-->
 <!Doctype html>
 <html>
-
 <head>
     <meta charset="utf8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title> Votations présidentielles 2022 </title>
-
-
     <!--librairies-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
     <link rel="stylesheet" href="style.css" />
@@ -23,21 +20,22 @@
   </head>
 
 <body>
-  <body>
     <h1>Votations présidentielles 2022 </h1>
-    <div id="coordonnees">Coordonnées: déplacez la souris sur la carte</div>
     <h2>division par commune et par tour des votations</h2>
     <!--MAIN BODY - MAP SIDE-->
-    <div id="map" class="carte-interactive"></div>
-    <div id="coordonnees">Coordonnées: déplacez la souris sur la carte</div>
+
+<div class="main">
+  <div id="map" class="carte-interactive"></div>
+  <div id="coordonnees">Coordonnées: déplacez la souris sur la carte</div>
 
     <!--slider et graphs-->
-    <div class="sidebar">
-    <label >sélectionner un candidat :</label>
-    <b></b><span id="candidat">all</span></b>
-    <br>
-      <label for="candidat">sélectionner un candidat :</label>
-       <select class="form-control" id="candidat">
+  <div class="sidebar">
+      <div class="deroulant">
+       <label >sélectionner un candidat :</label>
+       <b></b><span id="candidat">all</span></b>
+       <br>
+       <label for="candidat">sélectionner un candidat :</label>
+        <select class="form-control" id="candidat">
           <option value="Arthaud">Arthaud</option>
           <option value="Roussel">Roussel</option>
           <option value="Macron">Macron</option>
@@ -50,17 +48,21 @@
           <option value="Pécresse">Pécresse</option>
           <option value="Poutou">Poutou</option>
           <option value="Dupont-Aignan">Dupont-Aignan</option>
-    <b></b><span id="candidat">Macron</span></b>
-    <br>
-          </div>
+       </div>
 
-    <div class="infobox">
+      <div class="legende">
+            <!--insérer les pourcentages-->
+      </div>
+
+      <div class="infobox">
       <p><i>Cliquez sur un symbole pour obtenir le résultat détaillé.</i></p>
         </div>
 
-    <div class="copyright">
+      <div class="copyright">
       <p>Source des données:<br /> </p>
      2022 © Max Henking et Axelle Bersier, UNIL
     </div>
+    </div>
+  </div>
   </body>
 </html>
