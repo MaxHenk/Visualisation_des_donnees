@@ -1,17 +1,55 @@
-<html>
-  <head>
+<!--Elections françaises - Max Henking et Axelle Bersier - Juin 2022-->
+<!Doctype html>
+<html lang="fr">
+
+<head>
     <meta charset="utf8" />
-    <title>Visualisation de données</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Votations présidentielles 2022 </title>
+
+
+    <!--librairies-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Chargement scripts js -->
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <!-- Chargement des données -->
+    <script src="index.json"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
+
+<body>
   <body>
-    <h1>Projet de Axelle Bersier et Max Henking</h1>
+    <h1>division par commune et par tour des votations</h1>
     <h2>Carte interactive</h2>
 
-    <div class="trainline">
+    <!--MAIN BODY - MAP SIDE-->
+    <div class="map">
+      <div id="map"></div>
     </div>
+
+    <!--slider et graphs-->
+    <div class="colonne">
+    <label >sélectionner un candidat :</label>
+    <b></b><span id="candidat">Macron</span></b>
+    <br>
+      <label for="candidat">sélectionner un candidat :</label>
+       <select class="form-control" id="candidat">
+          <option value="2010" selected>2010</option>
+          <option value="Zemmour">Zemmour</option>
+          <option value="1980">1980</option>
+          <option value="1964">1964</option>
+          <option value="1945">1945</option>
+          <option value="1920">1920</option>
+          <option value="1890">1890</option>
+            </select>
+          </div>
+    <table>
+      <
     <div class="infobox-gare"></div>
     <div class="infobox-poi"></div>
     <div id="map"></div>
