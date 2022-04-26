@@ -3,6 +3,8 @@ Ce projet a pour but de visualiser les résultats au premier et deuxième tour d
   - Un bouton (en haut à droite de la carte) permettant de changer du premier au second tour
   - Un bouton permettant de choisir les résultats à afficher par candidats [de manière à avoir un point de vue national des résultats du candidat choisi]
   - Une On-click function permettant de sélectionner une commune et d'obtenir les détails des résultats selon le tour sélectionné
+  - Lors de la sélection d'une commune, affichage d'un histogramme en bas à droite de l'écran montrant les pourcentages de votes reçus pour chaque candidat
+  - Lors de la sélection d'une commune, affichage de statistiqes descriptives : nb d'inscrits, % de votants, % de vote blancs, % de participation
 
 Données :
 Les données sont disponibles sur data.gouv.fr et ont été nettoyées par Tristan Guerra en date du 15 avril 2022 pour le premier tour et du 25 avril 2022 pour le second. 
