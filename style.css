@@ -20,7 +20,7 @@ h2 {
   position: relative;
 }
 
-.carte-interactive {
+#map {
   position: absolute;
   top: 0;
   left: 0;
