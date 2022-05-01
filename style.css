@@ -29,7 +29,7 @@ h2 {
 .tours {
   position: absolute;
   top: 80px;
-  left: 575px;
+  left: calc(75vw - 170px);
   width: 330px;
   height: 50px;
   background-color: #bdbdbd;
@@ -38,7 +38,7 @@ h2 {
 .liste-candidats {
   position: absolute;
   top: 140px;
-  left: 575px;
+  left: calc(75vw - 170px);
   width: 330px;
   height: 50px;
   background-color: #bdbdbd;
@@ -47,7 +47,7 @@ h2 {
 .stats-descriptives {
   position: absolute;
   top: 200px;
-  left: 575px;
+  left: calc(75vw - 170px);
   width: 330px;
   height: 150px;
   background-color: #bdbdbd;
@@ -56,7 +56,7 @@ h2 {
 .infobox-communes{
   position: absolute;
   top: 360px;
-  left: 575px;
+  left: calc(75vw - 170px);
   width: 330px;
   height: 150px;
   background-color: #bdbdbd;
