@@ -1,7 +1,7 @@
 <!--Elections françaises - Max Henking et Axelle Bersier - Juin 2022-->
 <!Doctype html>
 <html>
-<head>
+  <head>
     <meta charset="utf8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,45 +12,31 @@
     <link rel="stylesheet" href="style.css" />
     <!-- Chargement scripts js -->
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <!-- Chargement des données -->
     <script src="index.json"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
-
-<body>
   <body>
     <h1>Votations présidentielles 2022 </h1>
     <h2>division par commune et par tour des votations</h2>
-
-<div class="main">
-  <div id="map"></div>
-  <div id="coordonnees">Coordonnées: déplacez la souris sur la carte</div>
-
-    <!--slider et graphs-->
-  <div class="sidebar">
-      
-      <div class="legende">
+    <div id="map"></div>
+    <div class="tours"></div>
+    <div class="stats-descriptives"></div>
             <!--insérer les pourcentages-->
-      </div>
+    <div class="liste-candidats">
+      <label>sélectionner un candidat :</label>
+      <b></b><span id="candidat">all</span></b>
+      <br>
+    </div>
+    <div class="infobox-communes">
+      <p><i>Cliquez sur une commune pour obtenir le résultat détaillé par candidat.</i></p>
+    </div>
 
-      <div class="group-candx">
-       <label>sélectionner un candidat :</label>
-       <b></b><span id="candidat">all</span></b>
-       <br>
-       </div>
-
-
-      <div class="infobox">
-      <p><i>Cliquez sur un symbole pour obtenir le résultat détaillé.</i></p>
-        </div>
-
-      <div class="copyright">
+    <div class="copyright">
       <p>Source des données:<br /> </p>
-     2022 © Max Henking et Axelle Bersier, UNIL
+        2022 © Max Henking et Axelle Bersier, UNIL
     </div>
-    </div>
-  </div>
+    <script src="index.js"></script>
   </body>
 </html>

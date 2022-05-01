@@ -1,5 +1,4 @@
-var mymap = L.map('map').setView([46.704532663131076, 8.75026434659958], 8);
-
+var mymap = L.map('map').setView([47.003, 1.901], 6);
 //Limiter l'emprise de notre carte  A MODIFIER
 //mymap.setMaxBounds([[48.52388120259336, 11.524658203125002], [45.1510532655634, 6.591796875000001]])
 //mymap.setMinZoom(7);

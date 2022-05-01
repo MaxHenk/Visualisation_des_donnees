@@ -16,44 +16,50 @@ h2 {
   font-size:  12 px;
 }
 
-.main {
-  position: relative;
-}
-
 #map {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(100vw - 400px); 
+  top: 80px;
+  left: 20px;
+  width: calc(75vw - 200px); 
   height: calc(100vh - 110px);
   min-height: 500px;
   background-color: #999;
   border: 1px solid #666;
 }
-
-.sidebar {
+.tours {
   position: absolute;
-  top: 0;
-  left: calc(100vw - 395px);
+  top: 80px;
+  left: 575px;
   width: 330px;
-  height: calc(100vh - 140px);
-  min-height: 470px;
-  background-color: #f0f0f0;
-  border: 1px solid #666;
-  padding: 15px;
+  height: 50px;
+  background-color: #bdbdbd;
 }
 
-
-.infobox {
-  margin-top: 10px;
+.liste-candidats {
+  position: absolute;
+  top: 140px;
+  left: 575px;
+  width: 330px;
+  height: 50px;
+  background-color: #bdbdbd;
 }
 
-.legende {
-  margin-top: 10px;
+.stats-descriptives {
+  position: absolute;
+  top: 200px;
+  left: 575px;
+  width: 330px;
+  height: 150px;
+  background-color: #bdbdbd;
 }
 
-.group-cand {
-  margin-top: 10px;
+.infobox-communes{
+  position: absolute;
+  top: 360px;
+  left: 575px;
+  width: 330px;
+  height: 150px;
+  background-color: #bdbdbd;
 }
 
 .copyright {
