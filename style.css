@@ -26,6 +26,12 @@ h2 {
   background-color: #999;
   border: 1px solid #666;
 }
+
+#my_dataviz {
+  width: calc(75vw - 200px);
+  height: calc(100vh - 110px);;
+}
+
 .tours {
   position: absolute;
   top: 80px;
