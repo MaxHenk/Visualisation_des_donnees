@@ -29,5 +29,12 @@ var baseLayers = {
 var overlays = {};
 L.control.layers(baseLayers, overlays).addTo(mymap);
 
+function onEachFeature(feature, layer) {
+  if (feature.properties && feature.properties.libgeo){
+    layer.bindPopup(feature.properties.libgeo);
+  }
+}
+L.geoJSON(communes, {
+    onEachFeature: onEachFeature
+}).addTo(mymap);
 
-L.geoJSON(communes).addTo(mymap);
