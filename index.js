@@ -38,3 +38,12 @@ L.geoJSON(communes, {
     onEachFeature: onEachFeature
 }).addTo(mymap);
 
+
+Papa.parse("https://raw.githubusercontent.com/MaxHenk/Visualisation_des_donnees/main/Data/premier_tour_clean.csv", {
+    download: true,
+    header: true,
+    complete: function(results) { 
+      console.log("Finished:", results.data);
+    }
+});
+
