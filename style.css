@@ -16,7 +16,7 @@ h2 {
   font-size:  12 px;
 }
 
-#map {
+.chloropleth {
   position: absolute;
   top: 80px;
   left: 20px;
@@ -25,11 +25,6 @@ h2 {
   min-height: 500px;
   background-color: #999;
   border: 1px solid #666;
-}
-
-#my_dataviz {
-  width: calc(75vw - 200px);
-  height: calc(100vh - 110px);;
 }
 
 .tours {

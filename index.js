@@ -1,74 +1,114 @@
-var mymap = L.map('map').setView([47.003, 1.901], 6);
-//Limiter l'emprise de notre carte  A MODIFIER
-//mymap.setMaxBounds([[48.52388120259336, 11.524658203125002], [45.1510532655634, 6.591796875000001]])
-//mymap.setMinZoom(7);
+var M = {
+    bbox: [485000, 75000, 834000, 296000],
+    topojson: null,
+    data: null,           // the data as array
+    data_obj: {},         // the data table as dictionnary aka object for quick access
+    data_series: null,    // contains the raw values to be mapped
+}
 
-// Définir les différentes couches de base 
-var osmLayer = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-});
-var osmNoirBlanc = L.tileLayer(
-  'https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', { 
-    attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-  }
-);
-var esriImagery = L.tileLayer(
-  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/t\ile/{z}/{y}/{x}', {
-    attribution: '&copy; <a href="https://www.esri.com">Esri</a>, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-  }
-);
+function main(){
+  M.svg = d3.select("svg.chloropleth");
+  M.width = M.svg.attr('width');
+  M.height = M.svg.attr('height');
 
-esriImagery.addTo(mymap);
+  M.path = d3.geoPath();
+  
+  // Load the data
+  Promise.all([
+    d3.json('Data/communes.json'),
+    d3.csv('Data/premier_tour_clean.csv', d3.autoType)
+  ])
+  .then(function(result){
+    M.topojson = result[0];
+    M.data = result[1];
+    M.data_series = M.data.map(d => d.Votants)
 
-// Creer le bouton pour changer la couche de base
-var baseLayers = {
-  "OpenStreetMap": osmLayer,
-  "OpenStreetMap noir/blanc": osmNoirBlanc,
-  "Images satellites ESRI": esriImagery,
-};
-var overlays = {};
-L.control.layers(baseLayers, overlays).addTo(mymap);
+    // Convert the data into an object. We will need to make the link from the
+    // geometry to the statistical data. This is formally a join but can be 
+    // done efficiently with the use of a dictionnary. We still need a loop
+    // over all communes here.
+    for (var i=0; i < M.data.length; i++){
+      var commune_id = `${M.data[i].CodeInsee}`;
+      M.data_obj[commune_id] = M.data[i];
+    }
 
-// function onEachFeature(feature, layer) {
-//   if (feature.properties && feature.properties.libgeo){
-//     layer.bindPopup(feature.properties.libgeo);
-//   }
-// }
-L.geoJSON(communes).addTo(mymap);
+    drawMap();
+  });
+
+}
 
 
-// Papa.parse("https://raw.githubusercontent.com/MaxHenk/Visualisation_des_donnees/main/Data/premier_tour_clean.csv", {
-//     download: true,
-//     header: true,
-//     complete: function(results) { 
-//       console.log("Finished:", results.data);
-//     }
-// });
+function drawMap(){
 
-Papa.parse("https://raw.githubusercontent.com/MaxHenk/Visualisation_des_donnees/main/Data/premier_tour_clean.csv", {
-    download: true,
-    header: true,
-    complete: function(results) { //everything below runs only after the CSV has been loaded and processed.
-        communesHolder = L.geoJson(communes, { //defining the leaflet overlay layer that will house this data; polygons with location data is are already loaded in PuneElectoralWards variable.
-                //style: areastyle,
-                onEachFeature: function PBpopulate(feature, layer) { //below code will be executed for each item in the layer
-                    var popupText = "";
-                    var labelText = "";
-                    if (feature.properties && feature.properties.libgeo) {
-                        popupText += "<b>" + feature.properties.libgeo.toString() + "</b>";
-                        labelText = feature.properties.libgeo.toString();
-                        //Here it comes! The part where we look up the CSV data for a row having the same name as the map item's name
-                        var filtered = results.data.filter(function(data){return data.Commune == this;}, feature.properties.libgeo.toString());
-                        console.log(JSON.stringify(filtered));
-                        popupText += "<br>" + JSON.stringify(filtered);
-                        }
-                    if (feature.properties && feature.properties.description) {
-                        popupText += "<br>" + feature.properties.description.toString();
-                        }
-                    layer.bindPopup(popupText); //.bindLabel(labelText)
-                }   //closing onEachFeature function
-            }).addTo(mymap); //map layer created, added to "wards" overlay layer
-    }   //Papa.parse's complete: section over
-}); // Papa.parse function over.
+  // The TopoJSON contains raw coordinates in CRS CH1903/LV03.
+  // As this is already a projected CRS, we can use an SVG transform
+  // to fit the map into the SVG view frame.
+  // In a first step, we compute the transform parameters.
+
+  // Compute the scale of the transform
+  var scaleX = M.width / (M.bbox[2] - M.bbox[0]),
+      scaleY = M.height / (M.bbox[3] - M.bbox[1]);
+  var scale = Math.min(scaleX, scaleY);
+
+  var dx = -1 * scale * M.bbox[0];
+  var dy = scale * M.bbox[1] + parseFloat(M.height);
+
+  M.map = M.svg.append('g')
+    .attr('class', 'map')
+    .attr(
+      'transform', 
+      'matrix('+scale+' 0 0 -'+scale+' '+dx+' '+dy+')'
+    );
+
+  // Compute the class limits using Jenks.
+  // We use Classybrew to do this.
+  M.brew = new classyBrew();
+  M.brew.setSeries(M.data_series);
+  M.brew.setNumClasses(6);
+  M.brew.setColorCode('PuBu');
+  M.breaks = M.brew.classify('jenks');
+
+  M.color = d3.scaleThreshold()
+    .domain(M.breaks.slice(1,6))
+    .range(M.brew.getColors());
+
+  // Communes are drawn first
+  M.map
+    .append('g').attr('class', 'communes')
+    .selectAll('path')
+    .data(topojson.feature(M.topojson, M.topojson.objects.communes).features)
+    .enter()
+    .append('path')
+    .attr('fill', function(d){
+      // This is a bit tricky here because we get the commune and not the data
+      // to be mapped.
+      var commune_id = `${d.properties.codgeo}`
+      var statdata = M.data_obj[commune_id]
+      return statdata ? M.color(statdata.p_fem_singl_2034) : '#fff'
+    })
+    .attr('d', M.path);
+
+  // Limits of the cantons
+  // Due to our SVG transform above, stroke-width is in meters!
+  M.map
+    .append('g').attr('class', 'cantons')
+    .selectAll('path')
+    .data(topojson.feature(M.topojson, M.topojson.objects.cantons).features)
+    .enter()
+    .append('path')
+    .attr('stroke', '#fff').attr('stroke-width', 200)
+    .attr('fill', 'none').attr('d', M.path);
+
+  // Lakes on top
+  M.map
+    .append('g').attr('class', 'lacs')
+    .selectAll('path')
+    .data(topojson.feature(M.topojson, M.topojson.objects.lacs).features)
+    .enter().append('path')
+    .attr('fill', '#777').attr('d', M.path);
+}
+
+
+main()
 
 
