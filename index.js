@@ -16,7 +16,7 @@ function main(){
   // Load the data
   Promise.all([
     d3.json('Data/communes.json'),
-    d3.csv('Data/premier_tour_clean.csv', d3.autoType)
+    d3.csv('Data/premier.csv', d3.autoType)
   ])
   .then(function(result){
     M.topojson = result[0];
