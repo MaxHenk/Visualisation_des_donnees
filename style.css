@@ -23,7 +23,6 @@ h2 {
   width: calc(75vw - 200px); 
   height: calc(100vh - 110px);
   min-height: 500px;
-  background-color: #999;
   border: 1px solid #666;
 }
 

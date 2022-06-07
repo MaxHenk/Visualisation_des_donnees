@@ -3,3 +3,4 @@ venv
 Data/.DS_Store
 script.py
 lib/
+geodata/
