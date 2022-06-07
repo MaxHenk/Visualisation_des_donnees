@@ -1,14 +1,103 @@
+//définition des variables
 
-  Promise.all([
-  d3.json('Data/communes-cantons-quant-topo.json'),
-  d3.csv('Data/premier.csv', d3.autoType)
+var data;
+var premier_tour;
+var deuxieme_tour;
+var cmnes; 
+var cantons; // TODO: appeler départements
+
+// TODO centrer carte
+const scaleX = 430 / 1160000;
+const scaleY = 600 / 1070000;
+
+var scale = Math.min(scaleX, scaleY);
+
+var xmin = 84334; 
+var ymin = 6046258; 
+var dx = -1 * scale * xmin;
+var dy = scale * ymin + 600;
+
+const geoPath = d3.geoPath();
+
+var display_tour = 1;
+
+//fonction appelée par les boutons
+function set_tour (value){
+    display_tour = value
+    update_carte_tour()
+}
+
+//cette fonction part du principe que tous les datasets sont complets
+function update_carte_tour(){
+    d3.select('#com')
+        .attr('transform', 
+          `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
+        .selectAll('path')
+        .data(cmnes.features)
+        .attr('fill', function(feature){
+            if(display_tour == 1){
+                votes_commune = premier_tour.find(el => el.CodeInsee == feature.properties.codgeo)
+            } else {
+                votes_commune = deuxieme_tour.find(el => el.CodeInsee == feature.properties.codgeo)
+            }
+            try{
+                let p = votes_commune["LE PEN"] / votes_commune.Votants   
+                const c = p * 255
+                return `rgb(${c} 0 0)`  // TODO: changer les couleurs       
+            }catch (error){
+              return `rbg(0 0 0)`
+            }
+            
+        })
+    }
+
+//initialisation et chargement des données
+function prepare_document(){
+    Promise.all([
+        d3.json('Data/communes-cantons-quant-topo.json'),
+        d3.csv('Data/premier.csv', d3.autoType),
+        d3.csv('Data/deuxieme.csv', d3.autoType),
+    ]).then(function (result) {
+        data = result[0]
+        premier_tour = result[1]
+        deuxieme_tour = result[2]
+
+        cmnes = topojson.feature(data, data.objects.communes)
+        cantons = topojson.feature(data, data.objects.departements)
+
+        dessine_carte()
+        update_carte_tour()
+    })
+    
+}
+
+function dessine_carte(){
+
+    let votes_commune
+
+    d3.select('#com')
+    .attr('transform', 
+        `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
+    .selectAll('path')
+    .data(cmnes.features)
+    .enter()
+    .append('path')
+    .attr('d', geoPath)
+
+}
+ /*
+Promise.all([
+    d3.json('Data/communes-cantons-quant-topo.json'),
+    d3.csv('Data/premier.csv', d3.autoType),
+    d3.csv('Data/deuxieme.csv', d3.autoType),
 ]).then(function (result) {
-        const data = result[0]
-        const csv = result[1]
-        console.log(data, csv)
-        console.log('data', data.objects)
+        data = result[0]
+        premier_tour = result[1]
+        deuxieme_tour = result[2]
+
         const cmnes = topojson.feature(data, data.objects.communes)
         const cantons = topojson.feature(data, data.objects.departements)
+        console.log(premier_tour)
 
         const geoPath = d3.geoPath()
 
@@ -21,8 +110,9 @@
         var ymin = 6046258
         var dx = -1 * scale * xmin
         var dy = scale * ymin + 600
+        let votes_commune
 
-        d3.select('#cmnes')
+        d3.select('#com')
         .attr('transform', 
             `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
           .selectAll('path')
@@ -31,26 +121,30 @@
           .append('path')
           .attr('d', geoPath)
           .attr('fill', function(feature){
-            const c = feature.properties.dep * 9
-            return `rgb(${c} 0 0)`
-          })
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 300)
-          .on('click', function(evt){
+            try{
+                votes_commune = premier_tour.find(el => el.CodeInsee == feature.properties.codgeo);
+                let p = votes_commune["ARTHAUD" ]/ votes_commune.Votants
+                const c = p * 255
+                //var p = premier_tour.
+                return `rgb(${c} 0 0)`                
+            }catch (error){
+                console.log(feature.properties)
+                console.log(votes_commune)
+                console.log(error)
+            }
+
+             
+
+          /*.on('click', function(evt){
             const feature = evt.target._data_
             console.log('feature', feature)
-          })
+          })*/
 
-        d3.select('#ct')
+        /*d3.select('#ct')
         .attr('transform', 
             `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
           .selectAll('path')
           .data(cantons.features)
           .enter()
           .append('path')
-          .attr('d', geoPath)
-  })
-
-
-
-
+          .attr('d', geoPath)*/
