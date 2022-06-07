@@ -12,13 +12,13 @@
 
         const geoPath = d3.geoPath()
 
-        const scaleX = 800 / 350000
-        const scaleY = 600 / 220000
+        const scaleX = 430 / 1160000 
+        const scaleY = 600 / 1070000
 
         var scale = Math.min(scaleX, scaleY)
 
-        var xmin = 485000
-        var ymin = 75000
+        var xmin = 84334
+        var ymin = 6046258
         var dx = -1 * scale * xmin
         var dy = scale * ymin + 600
 
@@ -49,7 +49,6 @@
           .enter()
           .append('path')
           .attr('d', geoPath)
-          .attr('fill', 'grey')
   })
 
 
