@@ -7,8 +7,11 @@ var cmnes;
 var cantons; // TODO: appeler départements
 
 // TODO centrer carte
-const scaleX = 430 / 1160000;
-const scaleY = 600 / 1070000;
+const elem = document.getElementById("chloropleth");
+const rectan = elem.getBoundingClientRect();
+
+const scaleX =  rectan.width/ 1400000;
+const scaleY = rectan.height/ 1310000;
 
 var scale = Math.min(scaleX, scaleY);
 
@@ -64,6 +67,7 @@ function prepare_document(){
 
         cmnes = topojson.feature(data, data.objects.communes)
         cantons = topojson.feature(data, data.objects.departements)
+
 
         dessine_carte()
         update_carte_tour()

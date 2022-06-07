@@ -16,7 +16,7 @@ h2 {
   font-size:  12 px;
 }
 
-.chloropleth {
+#chloropleth {
   position: absolute;
   top: 80px;
   left: 20px;
