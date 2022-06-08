@@ -7,11 +7,13 @@ var cmnes;
 var cantons; // TODO: appeler départements
 
 // TODO centrer carte
-const elem = document.getElementById("chloropleth");
-const rectan = elem.getBoundingClientRect();
+const scaleX = 430 / 1160000;
+const scaleY = 600 / 1070000;
+//const elem = document.getElementById("chloropleth");
+//const rectan = elem.getBoundingClientRect();
 
-const scaleX =  rectan.width/ 1400000;
-const scaleY = rectan.height/ 1310000;
+//const scaleX =  rectan.width/ 1400000;
+//const scaleY = rectan.height/ 1310000;
 
 var scale = Math.min(scaleX, scaleY);
 
@@ -22,12 +24,37 @@ var dy = scale * ymin + 600;
 
 const geoPath = d3.geoPath();
 
-var display_tour = 1;
+const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
 
-//fonction appelée par les boutons
+var display_tour = 1;
+var display_cand = "lepen"
+
+//fonctions appelée par les boutons
 function set_tour (value){
     display_tour = value
+
+    if(display_tour == 2){ 
+        for(let i=0; i< candidat_to_hide.length; i++){
+            var elem = document.getElementById(candidat_to_hide[i])
+            elem.style.display = "none"
+        } 
+    }else{
+        for(let i=0; i< candidat_to_hide.length; i++){
+            var elem = document.getElementById(candidat_to_hide[i])
+            elem.style.display = "inline-block"
+        } 
+    }  
+
     update_carte_tour()
+}
+
+function set_cand (value){
+    //if (display_cand != "lepen" || "macron") ; //DISABLE POUR NE PAS ALLER DANS LE DEUXIEME
+
+    display_cand = value
+
+    console.log(display_cand)
+    console.log(display_tour)
 }
 
 //cette fonction part du principe que tous les datasets sont complets
@@ -44,7 +71,7 @@ function update_carte_tour(){
                 votes_commune = deuxieme_tour.find(el => el.CodeInsee == feature.properties.codgeo)
             }
             try{
-                let p = votes_commune["LE PEN"] / votes_commune.Votants   
+                let p = votes_commune[display_cand] / votes_commune.Votants   
                 const c = p * 255
                 return `rgb(${c} 0 0)`  // TODO: changer les couleurs       
             }catch (error){
@@ -52,7 +79,7 @@ function update_carte_tour(){
             }
             
         })
-    }
+}   
 
 //initialisation et chargement des données
 function prepare_document(){

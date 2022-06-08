@@ -10,7 +10,7 @@
     <!--librairies-->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
-    
+    <script src="index.js"></script>    
     <!-- Chargement des données -->
     <link rel="stylesheet" href="style.css" />
 
@@ -30,19 +30,19 @@
     </div>
     <div class="liste-candidats">
       <label for="candidat">sélectionner un candidat :</label>
-        <select class="form-control" id="candidat">
-          <option value="Arthaud">Arthaud</option>
-          <option value="Roussel">Roussel</option>
-          <option value="Macron">Macron</option>
-          <option value="Lassalle">Lassalle</option>
-          <option value="Le Pen">Le Pen</option>
-          <option value="Zemmour">Zemmour</option>
-          <option value="Mélenchon">Mélenchon</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jadot">Jadot</option>
-          <option value="Pécresse">Pécresse</option>
-          <option value="Poutou">Poutou</option>
-          <option value="Dupont-Aignan">Dupont-Aignan</option>
+        <select class="form-control" id="candidat" multiple onclick ="set_cand(value)">
+          <option id="arthaud" value="arthaud">Arthaud</option>
+          <option id="roussel" value="roussel">Roussel</option>
+          <option id="macron" value="macron">Macron</option>
+          <option id="lasalle" value="lassalle">Lassalle</option>
+          <option id= "lepen" value="lepen">Le Pen</option>
+          <option id="zemmour" value="zemmour">Zemmour</option>
+          <option id="melenchon" value="melenchon">Mélenchon</option>
+          <option id="hidalgo" value="hidalgo">Hidalgo</option>
+          <option id="jadot" value="jadot">Jadot</option>
+          <option id="pecresse" value="pecresse">Pécresse</option>
+          <option id="poutou" value="poutou">Poutou</option>
+          <option id="dupontaignan" value="dupontaignan">Dupont-Aignan</option>
         </select>
     </div>
     <div class="stats-descriptives"></div>
@@ -55,6 +55,5 @@
       <p>Source des données:<br /> </p>
         2022 © Max Henking et Axelle Bersier, UNIL
     </div>
-    <script src="index.js"></script>
   </body>
 </html>
