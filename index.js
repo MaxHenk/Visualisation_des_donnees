@@ -1,3 +1,5 @@
+
+
 //définition des variables
 
 var data;
@@ -81,6 +83,7 @@ function update_carte_tour(){
         })
 }   
 
+
 //initialisation et chargement des données
 function prepare_document(){
     Promise.all([
@@ -115,7 +118,10 @@ function dessine_carte(){
     .append('path')
     .attr('d', geoPath)
 
-}
+};
+
+document.getElementById("MyBody").onload = function() {prepare_document()}
+console.log("com", cmnes)
  /*
 Promise.all([
     d3.json('Data/communes-cantons-quant-topo.json'),
