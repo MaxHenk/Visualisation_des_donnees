@@ -117,7 +117,9 @@ function dessine_carte(){
     .enter()
     .append('path')
     .attr('d', geoPath)
-
+    .on('click', function(){
+        console.log("cmnes", cmnes.features.libgeo)
+    })
 };
 
 document.getElementById("MyBody").onload = function() {prepare_document()}
