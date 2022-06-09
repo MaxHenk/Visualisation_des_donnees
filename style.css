@@ -53,12 +53,12 @@ h2 {
   background-color: #bdbdbd;
 }
 
-.infobox-communes{
+#infobox-communes{
   position: absolute;
   top: 360px;
   left: calc(75vw - 170px);
   width: 330px;
-  height: 150px;
+  height: 300px;
   background-color: #bdbdbd;
 }
 
