@@ -8,11 +8,6 @@ var deuxieme_tour;
 var cmnes; 
 var cantons; // TODO: appeler départements
 
-//Variables du graphique infobox-communes
-var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
-var width_graph = 330 - margin_graph.left - margin_graph.right;
-var height_graph = 300 - margin_graph.top - margin_graph.bottom;
-
 // TODO centrer carte
 const scaleX = 430 / 1160000;
 const scaleY = 600 / 1070000;
@@ -130,58 +125,93 @@ function clique_carte(){
     communes = d3.selectAll('path')
     communes.data(cmnes.features)
     communes.on("click", function(d) {
+        if (display_tour == 1){
+            liste_candidat = ["arthaud","roussel","macron","lassale","lepen","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
+        } else {
+            liste_candidat = ["macron", "lepen"]
+        }
         var marqueur = d.target //créer un objet unique après chaque clic
         var props = marqueur.__data__ //variable contenant les les propriétés de la commune
+        var prop_commune;
+        if (display_tour == 1){
+            prop_commune = premier_tour.find(el => el.CodeInsee == props.properties.codgeo)
+        } else {
+            prop_commune = deuxieme_tour.find(el => el.CodeInsee == props.properties.codgeo)
+        } //lien entre json et csv
+        var results_com = []
+        for(var i = 0; i < liste_candidat.length; i++) {
+            results_com.push(prop_commune[liste_candidat[i]])
+        }
+        console.log("resultats", results_com)
+        
 
         console.log(marqueur.__data__.properties.libgeo)
+        console.log(prop_commune["arthaud"])
+        //Histogram in infobox communes
+        //Basic elements of graph
+        //Variables du graphique infobox-communes
+        var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
+        var width_graph = 330 - margin_graph.left - margin_graph.right;
+        var height_graph = 300 - margin_graph.top - margin_graph.bottom;
+        
+        min = d3.min(results_com)
+        max = d3.max(results_com)
+        domain = [min,max]
 
-        // //Histogram in infobox communes
-        // //Setup size etc of graph
-        // var svg = d3.select("#infobox-communes")
-        //     .append("svg")
-        //     .attr("width", width + margin.left + margin.right)
-        //     .attr("height", height + margin.top + margin.bottom)
-        //     .append("g")
-        //     .attr("transform",
-        //         "translate(" + margin.left + "," + margin.top + ")");
+        Nbins = liste_candidat.length
 
-        // function histo(){
-        //     var x = d3.scaleOrdinal()
-        //         .domain(candidat_to_hide)     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        //         .range([0, width_graph]);
-        //     svg.append("g")
-        //        .attr("transform", "translate(0," + height + ")")
-        //        .call(d3.axisBottom(x));
+        //X scale for the graphic
+        var x = d3.scaleLinear()
+                    .domain(domain)
+                    .range([0, width_graph]);
+        var histogram = d3.histogram()
+                    .domain(x.domain()) // then the domain of the graphic
+                    .thresholds(x.ticks(Nbins)); // then the numbers of bins
 
-        //     // set the parameters for the histogram
-        //     var histogram = d3.histogram()
-        //         .value(function(d) { return d.price; })   // I need to give the vector of value
-        //         .domain(x.domain())  // then the domain of the graphic
-        //         .thresholds(x.ticks(70)); // then the numbers of bins
+        var bins = histogram(results_com);
+        //Top element of the histogram
+        var svg = d3.select("#infobox-communes")
+            .append("svg")
+            .attr("width", width_graph + margin_graph.left + margin_graph.right)
+            .attr("height", height_graph + margin_graph.top + margin_graph.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin_graph.left + "," + margin_graph.top + ")");
 
-        //     // And apply this function to data to get the bins
-        //     var bins = histogram(data);
+        svg.append("g")
+           .attr("transform", "translate(0," + height_graph + ")")
+           .call(d3.axisBottom(x));
 
-        //     // Y axis: scale and draw:
-        //     var y = d3.scaleLinear()
-        //         .range([height, 0]);
-        //         y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-        //     svg.append("g")
-        //         .call(d3.axisLeft(y));
+        var y = d3
+           .scaleLinear()
+           .range([height_graph, 0])
+           .domain([
+             0,
+             d3.max(bins, function(d) {
+               return d.length;
+             })
+           ]);
 
-        //     // append the bar rectangles to the svg element
-        //     svg.selectAll("rect")
-        //         .data(bins)
-        //         .enter()
-        //         .append("rect")
-        //         .attr("x", 1)
-        //         .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-        //         .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-        //         .attr("height", function(d) { return height - y(d.length); })
-        //         .style("fill", "#69b3a2")
-        // }
-
-    }
+        svg.append("g")
+           .call(d3.axisLeft(y));
+        
+        svg
+           .selectAll("rect")
+           .data(bins)
+           .enter()
+           .append("rect")
+           .attr("x", 1)
+           .attr("transform", function(d) {
+             return "translate(" + x(d.x0) + "," + y(d.length) + ")";
+           })
+           .attr("width", function(d) {
+             return x(d.x1) - x(d.x0) - 1;
+           })
+           .attr("height", function(d) {
+             return height_graph - y(d.length);
+           })
+           .style("fill", "#69b3a2");
+    })
 };
 
 
