@@ -14,6 +14,10 @@ const scaleY = 600 / 1070000;
 //const elem = document.getElementById("chloropleth");
 //const rectan = elem.getBoundingClientRect();
 
+//Size of bar plot
+var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
+var width_graph = 330 - margin_graph.left - margin_graph.right;
+var height_graph = 300 - margin_graph.top - margin_graph.bottom;
 //const scaleX =  rectan.width/ 1400000;
 //const scaleY = rectan.height/ 1310000;
 
@@ -120,7 +124,7 @@ function dessine_carte(){
         .attr('d', geoPath)
 };
 
-
+   
 function clique_carte(){
     communes = d3.selectAll('path')
     communes.data(cmnes.features)
@@ -143,74 +147,64 @@ function clique_carte(){
             results_com.push(prop_commune[liste_candidat[i]])
         }
         console.log("resultats", results_com)
-        
+        console.log("res", prop_commune)
 
         console.log(marqueur.__data__.properties.libgeo)
         console.log(prop_commune["arthaud"])
         //Histogram in infobox communes
         //Basic elements of graph
         //Variables du graphique infobox-communes
-        var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
-        var width_graph = 330 - margin_graph.left - margin_graph.right;
-        var height_graph = 300 - margin_graph.top - margin_graph.bottom;
         
-        min = d3.min(results_com)
-        max = d3.max(results_com)
-        domain = [min,max]
-
-        Nbins = liste_candidat.length
-
         //X scale for the graphic
-        var x = d3.scaleLinear()
-                    .domain(domain)
-                    .range([0, width_graph]);
-        var histogram = d3.histogram()
-                    .domain(x.domain()) // then the domain of the graphic
-                    .thresholds(x.ticks(Nbins)); // then the numbers of bins
-
-        var bins = histogram(results_com);
-        //Top element of the histogram
-        var svg = d3.select("#infobox-communes")
-            .append("svg")
-            .attr("width", width_graph + margin_graph.left + margin_graph.right)
-            .attr("height", height_graph + margin_graph.top + margin_graph.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin_graph.left + "," + margin_graph.top + ")");
-
-        svg.append("g")
-           .attr("transform", "translate(0," + height_graph + ")")
-           .call(d3.axisBottom(x));
+        var x = d3.scalePoint()
+                .domain(liste_candidat)
+                .range([0, width_graph])
+                .padding(0.4);
 
         var y = d3
            .scaleLinear()
            .range([height_graph, 0])
-           .domain([
-             0,
-             d3.max(bins, function(d) {
-               return d.length;
-             })
-           ]);
+           .domain([0, d3.max(results_com)]);
 
+        //Top element of the bar plot
+        var svg = d3.select("#infobox-communes")
+                    .append("svg")
+                    .attr("width", width_graph + margin_graph.left + margin_graph.right)
+                    .attr("height", height_graph + margin_graph.top + margin_graph.bottom)
+                    .attr("id", "barplot")
+                    .append("g")
+                    .attr("transform",
+                        "translate(" + margin_graph.left + "," + margin_graph.top + ")");
+
+        svg.append("g")
+           .attr("transform", "translate(0," + height_graph + ")")
+           .call(d3.axisBottom(x))
+           .selectAll("text")
+           .attr("transform", "translate(-10,0)rotate(-45)")
+           .style("text-anchor", "end");
         svg.append("g")
            .call(d3.axisLeft(y));
         
         svg
            .selectAll("rect")
-           .data(bins)
+           .data(results_com)
            .enter()
            .append("rect")
-           .attr("x", 1)
+           .attr("x", function(d,i){
+            return x(liste_candidat[i])
+           })
+           .attr("y", function(d){
+            return y(d)
+           })
            .attr("transform", function(d) {
              return "translate(" + x(d.x0) + "," + y(d.length) + ")";
            })
-           .attr("width", function(d) {
-             return x(d.x1) - x(d.x0) - 1;
-           })
-           .attr("height", function(d) {
-             return height_graph - y(d.length);
+           .attr("width", 10)
+           .attr("height", function(d){
+            return height_graph - y(d)
            })
            .style("fill", "#69b3a2");
+        svg.exit().remove()
     })
 };
 
