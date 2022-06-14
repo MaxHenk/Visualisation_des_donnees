@@ -26,6 +26,10 @@ h2 {
   border: 1px solid #666;
 }
 
+#com:hover {
+  fill: red;
+}
+
 .tours {
   position: absolute;
   top: 80px;
@@ -52,6 +56,7 @@ h2 {
   height: 150px;
   background-color: #bdbdbd;
 }
+
 
 #infobox-communes{
   position: absolute;

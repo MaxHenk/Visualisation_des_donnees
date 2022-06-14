@@ -21,6 +21,10 @@ var height_graph = 300 - margin_graph.top - margin_graph.bottom;
 //const scaleX =  rectan.width/ 1400000;
 //const scaleY = rectan.height/ 1310000;
 
+
+//set a zoom
+
+
 var scale = Math.min(scaleX, scaleY);
 
 var xmin = 84334; 
@@ -35,6 +39,7 @@ const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","
 var display_tour = 1;
 var display_cand = "lepen"
 
+
 //fonctions appelée par les boutons
 function set_tour (value){
     display_tour = value
@@ -47,7 +52,7 @@ function set_tour (value){
     }else{
         for(let i=0; i< candidat_to_hide.length; i++){
             var elem = document.getElementById(candidat_to_hide[i])
-            elem.style.display = "inline-block"
+            elem.style.display = "block"
         } 
     }  
 
@@ -55,12 +60,12 @@ function set_tour (value){
 }
 
 function set_cand (value){
-    //if (display_cand != "lepen" || "macron") ; //DISABLE POUR NE PAS ALLER DANS LE DEUXIEME
-
     display_cand = value
 
     console.log(display_cand)
     console.log(display_tour)
+
+    update_carte_tour()
 }
 
 //cette fonction part du principe que tous les datasets sont complets
@@ -83,9 +88,10 @@ function update_carte_tour(){
             }catch (error){
               return `rbg(0 0 0)`
             }
-            
+
         })
 }   
+
 
 
 //initialisation et chargement des données
@@ -105,6 +111,7 @@ function prepare_document(){ //function main(){}
         console.log(cmnes.features)
         dessine_carte()
         update_carte_tour()
+        zoom_carte()
         clique_carte(premier_tour)
     })
     
@@ -114,7 +121,7 @@ function dessine_carte(){
 
     let votes_commune 
 
-    d3.select('#com')
+ d3.select('#com')
         .attr('transform', 
             `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
         .selectAll('path')
@@ -124,6 +131,37 @@ function dessine_carte(){
         .attr('d', geoPath)
 };
 
+
+function zoom_carte(){
+
+var zoom = d3.zoom()
+      .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+      .extent([[0, 0], [dx, dy]])
+      .on("zoom", update_carte_tour());
+
+    var svg = d3.select('svg');
+    var g = svg.append('g');
+
+    g.append('path')
+      .attr('d', geoPath)
+
+    svg.call(zoom().on('zoom', () => {
+          g.attr('transform', event.transform);
+        }));
+/*
+    var zoom = d3.zoom()
+      .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+      .extent([[0, 0], [dx, dy]])
+      .on("zoom", update_carte_tour());
+
+    svg.append("rect")
+      .attr("width", dx)
+      .attr("height", dy)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .call(zoom);*/
+} 
    
 function clique_carte(){
     communes = d3.selectAll('path')
@@ -196,9 +234,9 @@ function clique_carte(){
            .attr("y", function(d){
             return y(d)
            })
-           .attr("transform", function(d) {
-             return "translate(" + x(d.x0) + "," + y(d.length) + ")";
-           })
+           //.attr("transform", function(d) {
+           //  return "translate(" + x(d.x0) + "," + y(d.length) + ")";
+           //})
            .attr("width", 10)
            .attr("height", function(d){
             return height_graph - y(d)
