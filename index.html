@@ -16,20 +16,20 @@
 
   </head>
   <body id="MyBody">
-    <h1>Votations présidentielles 2022 </h1>
-    <h2>division par commune et par tour des votations</h2>
+    <h1>Résultats des élections présidentielles françaises </h1>
+    <h2>division par commune et par tour des votations </h2>
     <svg id="chloropleth">
       <g id="com"></g>
       <g id="ct"></g>
     </svg>
     <div class="tours">
       <input class="selector" type="button" value="1er tour" id="tour"
-      onclick ="set_tour(1)"; />
+      onclick ="set_tour(1)",onclick ="changeStyle(value)" ;/>
       <input class= "selector" type="button" value="2eme tour" id="second_tour"
-      onclick ="set_tour(2)";/>
+      onclick ="set_tour(2)", onclick ="changeStyle(value)"; />
     </div>
     <div class="liste-candidats">
-      <label for="candidat">sélectionner un candidat :</label>
+      <label for="candidat"> </label>
         <select class="form-control" id="candidat" multiple onclick ="set_cand(value)">
           <option id="arthaud" value="arthaud">Arthaud</option>
           <option id="roussel" value="roussel">Roussel</option>

@@ -21,7 +21,10 @@ var height_graph = 300 - margin_graph.top - margin_graph.bottom;
 //const scaleX =  rectan.width/ 1400000;
 //const scaleY = rectan.height/ 1310000;
 
-
+function changeStyle(value){
+    var element = document.getElementById(value);
+    element.style.fontWeight = "700";
+}
 //set a zoom
 
 

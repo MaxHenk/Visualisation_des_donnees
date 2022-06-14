@@ -7,6 +7,7 @@ body {
 h1 {
   margin:  0;
   font-weight: normal;
+  width: calc(75vw - 400px); 
 }
 
 h2 {
@@ -14,11 +15,27 @@ h2 {
   margin-top:  3 px;
   font-weight: normal;
   font-size:  12 px;
+  width: calc(75vw - 400px); 
+}
+.tours {
+  position: absolute;
+  top: 50px;
+  left: calc(75vw - 350px);
+  width: 330px;
+  height: 50px;
+}
+
+.liste-candidats {
+  position: absolute;
+  top: 5px;
+  left: calc(75vw - 100px);
+  width: 330px;
+  height: 50px;
 }
 
 #chloropleth {
   position: absolute;
-  top: 80px;
+  top: 100px;
   left: 20px;
   width: calc(75vw - 200px); 
   height: calc(100vh - 110px);
@@ -28,23 +45,6 @@ h2 {
 
 
 
-.tours {
-  position: absolute;
-  top: 80px;
-  left: calc(75vw - 170px);
-  width: 330px;
-  height: 50px;
-  background-color: #bdbdbd;
-}
-
-.liste-candidats {
-  position: absolute;
-  top: 140px;
-  left: calc(75vw - 170px);
-  width: 330px;
-  height: 50px;
-  background-color: #bdbdbd;
-}
 
 .stats-descriptives {
   position: absolute;
@@ -71,3 +71,33 @@ h2 {
   font-size: 10 px;
   margin-bottom: 7px;
 }
+
+
+.selector{
+  background: #FF4742;
+  border: 1px solid #FF4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+.selector :focus {
+  color: black;
+}
+
