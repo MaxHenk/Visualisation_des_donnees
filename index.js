@@ -60,6 +60,7 @@ function set_tour (value){
 }
 
 function set_cand (value){
+   
     display_cand = value
 
     console.log(display_cand)
@@ -90,6 +91,11 @@ function update_carte_tour(){
             }
 
         })
+
+
+
+        console.log(display_cand, display_tour)
+
 }   
 
 
@@ -111,7 +117,7 @@ function prepare_document(){ //function main(){}
         console.log(cmnes.features)
         dessine_carte()
         update_carte_tour()
-        zoom_carte()
+        //zoom_carte()
         clique_carte(premier_tour)
     })
     
@@ -131,7 +137,7 @@ function dessine_carte(){
         .attr('d', geoPath)
 };
 
-
+/*
 function zoom_carte(){
 
 var zoom = d3.zoom()
@@ -148,7 +154,7 @@ var zoom = d3.zoom()
     svg.call(zoom().on('zoom', () => {
           g.attr('transform', event.transform);
         }));
-/*
+
     var zoom = d3.zoom()
       .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
       .extent([[0, 0], [dx, dy]])
@@ -160,8 +166,16 @@ var zoom = d3.zoom()
       .style("fill", "none")
       .style("pointer-events", "all")
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-      .call(zoom);*/
-} 
+      .call(zoom);
+      
+    communes = d3.selectAll('path')
+    communes.data(cmnes.features)
+      .call(d3.zoom().on("zoom", function () {
+                svg .attr("transform", d3.event.transform)
+                }))
+              .append("g")
+} */
+
    
 function clique_carte(){
     communes = d3.selectAll('path')
@@ -193,6 +207,7 @@ function clique_carte(){
         //Basic elements of graph
         //Variables du graphique infobox-communes
         
+
         //X scale for the graphic
         var x = d3.scalePoint()
                 .domain(liste_candidat)
