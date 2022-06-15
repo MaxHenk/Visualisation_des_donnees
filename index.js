@@ -1,12 +1,11 @@
-
-
 //définition des variables
 
 var data;
 var premier_tour;
 var deuxieme_tour;
-var cmnes; 
+var cmnes; // supprimer
 var cantons; // TODO: appeler départements
+let chargement;
 
 // TODO centrer carte
 const scaleX = 430 / 1160000;
@@ -21,13 +20,14 @@ var height_graph = 300 - margin_graph.top - margin_graph.bottom;
 //const scaleX =  rectan.width/ 1400000;
 //const scaleY = rectan.height/ 1310000;
 
+//fonction pour mettre le bouton en gras qui ne fonctionne pas 
 function changeStyle(value){
     var element = document.getElementById(value);
     element.style.fontWeight = "700";
 }
 //set a zoom
 
-
+const zoom = d3.zoom().on('zoom', handle_zoom)
 var scale = Math.min(scaleX, scaleY);
 
 var xmin = 84334; 
@@ -72,11 +72,16 @@ function set_cand (value){
     update_carte_tour()
 }
 
+function handle_zoom(e){
+    d3.select("#com").attr('transform', e.transform)
+}
+
 //cette fonction part du principe que tous les datasets sont complets
 function update_carte_tour(){
-    d3.select('#com')
+
+    d3.select("#com")
         .attr('transform', 
-          `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
+        `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
         .selectAll('path')
         .data(cmnes.features)
         .attr('fill', function(feature){
@@ -87,21 +92,26 @@ function update_carte_tour(){
             }
             try{
                 let p = votes_commune[display_cand] / votes_commune.Votants   
-                const c = p * 255
-                return `rgb(${c} 0 0)`  // TODO: changer les couleurs       
-            }catch (error){
-              return `rbg(0 0 0)`
-            }
+                chargement = p.length 
+                console.log(chargement)   
+                const c = 255-(p * 255)
 
+                /*if (c < 100) { 
+                    const d = 255-(p * 255)
+                    console.log(d)
+                }
+                console.log(d)*/
+                return `rgb(255 ${c} ${c} )`   // TODO: changer les couleurs       
+            }catch (error){
+              return `rbg(255 255 255)` 
+            }
         })
 
+        
 
-
-        console.log(display_cand, display_tour)
-
-}   
-
-
+ 
+   
+}
 
 //initialisation et chargement des données
 function prepare_document(){ //function main(){}
@@ -117,7 +127,6 @@ function prepare_document(){ //function main(){}
         cmnes = topojson.feature(data, data.objects.communes)
         cantons = topojson.feature(data, data.objects.departements)
         
-        console.log(cmnes.features)
         dessine_carte()
         update_carte_tour()
         //zoom_carte()
@@ -126,11 +135,10 @@ function prepare_document(){ //function main(){}
     
 }
 
+
 function dessine_carte(){
 
-    let votes_commune 
-
- d3.select('#com')
+    d3.select('#com')
         .attr('transform', 
             `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
         .selectAll('path')
@@ -138,15 +146,19 @@ function dessine_carte(){
         .enter()
         .append('path')
         .attr('d', geoPath)
-};
+
+    d3.select('svg').call(zoom)
+
+}
 
 /*
 function zoom_carte(){
 
 var zoom = d3.zoom()
       .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
-      .extent([[0, 0], [dx, dy]])
       .on("zoom", update_carte_tour());
+       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .call(zoom);
 
     var svg = d3.select('svg');
     var g = svg.append('g');
@@ -158,10 +170,7 @@ var zoom = d3.zoom()
           g.attr('transform', event.transform);
         }));
 
-    var zoom = d3.zoom()
-      .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
-      .extent([[0, 0], [dx, dy]])
-      .on("zoom", update_carte_tour());
+
 
     svg.append("rect")
       .attr("width", dx)
@@ -262,10 +271,10 @@ function clique_carte(){
            .style("fill", "#69b3a2");
         svg.exit().remove()
     })
-};
+}
 
+prepare_document() //equivalent main()
 
-document.getElementById("MyBody").onload = function() {prepare_document()} //equivalent main()
  /*
 Promise.all([
     d3.json('Data/communes-cantons-quant-topo.json'),
@@ -328,4 +337,5 @@ Promise.all([
           .data(cantons.features)
           .enter()
           .append('path')
-          .attr('d', geoPath)*/
+          .attr('d', geoPath)
+          */

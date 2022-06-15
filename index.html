@@ -10,6 +10,7 @@
     <!--librairies-->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
+    
        
     <!-- Chargement des données -->
     <link rel="stylesheet" href="style.css" />
@@ -20,7 +21,7 @@
     <h2>division par commune et par tour des votations </h2>
     <svg id="chloropleth">
       <g id="com"></g>
-      <g id="ct"></g>
+      <!--g id="ct"></g-->
     </svg>
     <div class="tours">
       <input class="selector" type="button" value="1er tour" id="tour"
@@ -30,7 +31,7 @@
     </div>
     <div class="liste-candidats">
       <label for="candidat"> </label>
-        <select class="form-control" id="candidat" multiple onclick ="set_cand(value)">
+        <select class="form-control" id="candidat" onclick ="set_cand(value)">
           <option id="arthaud" value="arthaud">Arthaud</option>
           <option id="roussel" value="roussel">Roussel</option>
           <option id="macron" value="macron">Macron</option>
@@ -45,6 +46,11 @@
           <option id="dupontaignan" value="dupontaignan">Dupont-Aignan</option>
         </select>
     </div>
+
+      <div class="progress">
+          <div class="progress__bar"></div>
+      </div>
+    
             <!--insérer les pourcentages-->
     <div id="infobox-communes">
       <p><i>Cliquez sur une commune pour obtenir le résultat détaillé par candidat.</i></p>
