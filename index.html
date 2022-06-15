@@ -25,16 +25,16 @@
     </svg>
     <div class="tours">
       <input class="selector" type="button" value="1er tour" id="tour"
-      onclick ="set_tour(1)",onclick ="changeStyle(value)" ;/>
+      onclick ="set_tour(1)" style="font-weight: bold;"/>
       <input class= "selector" type="button" value="2eme tour" id="second_tour"
-      onclick ="set_tour(2)", onclick ="changeStyle(value)"; />
+      onclick ="set_tour(2)"/>
     </div>
     <div class="liste-candidats">
       <label for="candidat"> </label>
-        <select class="form-control" id="candidat" onclick ="set_cand(value)">
+        <select class="form-control" id="candidat" onchange ="set_cand(value)">
           <option id="arthaud" value="arthaud">Arthaud</option>
           <option id="roussel" value="roussel">Roussel</option>
-          <option id="macron" value="macron">Macron</option>
+          <option id="macron" value="macron" selected>Macron</option>
           <option id="lasalle" value="lassalle">Lassalle</option>
           <option id= "lepen" value="lepen">Le Pen</option>
           <option id="zemmour" value="zemmour">Zemmour</option>
@@ -48,7 +48,7 @@
     </div>
 
       <div class="progress">
-          <div class="progress__bar"></div>
+          <h3 id="progress">Chargement en cours...</h3>
       </div>
     
             <!--insérer les pourcentages-->

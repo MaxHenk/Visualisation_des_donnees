@@ -6,6 +6,7 @@ var deuxieme_tour;
 var cmnes; // supprimer
 var cantons; // TODO: appeler départements
 let chargement;
+let d = 255
 
 // TODO centrer carte
 const scaleX = 430 / 1160000;
@@ -39,24 +40,34 @@ const geoPath = d3.geoPath();
 
 const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
 
-var display_tour = 1;
-var display_cand = "lepen"
+var display_tour = 1
+var display_cand = "macron"
 
 
 //fonctions appelée par les boutons
-function set_tour (value){
+function set_tour(value){
     display_tour = value
+    var elem
 
-    if(display_tour == 2){ 
-        for(let i=0; i< candidat_to_hide.length; i++){
-            var elem = document.getElementById(candidat_to_hide[i])
+    for(let i=0; i< candidat_to_hide.length; i++){
+        elem = document.getElementById(candidat_to_hide[i])
+        if(display_tour == 2){
+            if(display_cand !== "macron" && display_cand !== "lepen"){
+                display_cand = "macron"
+                document.getElementById("macron").setAttribute("selected", true)
+            }
+            elem.setAttribute("disabled", true)
             elem.style.display = "none"
-        } 
-    }else{
-        for(let i=0; i< candidat_to_hide.length; i++){
-            var elem = document.getElementById(candidat_to_hide[i])
+            document.getElementById("second_tour").style.fontWeight = "bold";
+            document.getElementById("tour").style.fontWeight = "normal";
+
+        }else{
+            elem.setAttribute("disabled", true)
             elem.style.display = "block"
+            document.getElementById("second_tour").style.fontWeight = "normal";
+            document.getElementById("tour").style.fontWeight = "bold";
         } 
+
     }  
 
     update_carte_tour()
@@ -65,10 +76,6 @@ function set_tour (value){
 function set_cand (value){
    
     display_cand = value
-
-    console.log(display_cand)
-    console.log(display_tour)
-
     update_carte_tour()
 }
 
@@ -78,13 +85,16 @@ function handle_zoom(e){
 
 //cette fonction part du principe que tous les datasets sont complets
 function update_carte_tour(){
+    document.getElementById("progress").innerHTML = `Chargement en cours...`
 
+    let counter = 0
     d3.select("#com")
         .attr('transform', 
         `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
         .selectAll('path')
         .data(cmnes.features)
         .attr('fill', function(feature){
+            counter += 1
             if(display_tour == 1){
                 votes_commune = premier_tour.find(el => el.CodeInsee == feature.properties.codgeo)
             } else {
@@ -92,26 +102,21 @@ function update_carte_tour(){
             }
             try{
                 let p = votes_commune[display_cand] / votes_commune.Votants   
-                chargement = p.length 
-                console.log(chargement)   
                 const c = 255-(p * 255)
-
-                /*if (c < 100) { 
-                    const d = 255-(p * 255)
-                    console.log(d)
+                if (p < 0.05) { 
+                    d = (1.-p) * 255
+                    return `rgb(0 ${c} ${c} )` 
                 }
-                console.log(d)*/
                 return `rgb(255 ${c} ${c} )`   // TODO: changer les couleurs       
             }catch (error){
-              return `rbg(255 255 255)` 
+                // do nothing
             }
         })
 
-        
-
- 
-   
+    document.getElementById("progress").innerHTML = `Chargement terminé`
+    console.log("candidat:", display_cand, "   tour:", display_tour)
 }
+
 
 //initialisation et chargement des données
 function prepare_document(){ //function main(){}
