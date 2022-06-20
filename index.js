@@ -17,7 +17,7 @@ const scaleY = 600 / 1070000;
 //Size of bar plot
 var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
 var width_graph = 330 - margin_graph.left - margin_graph.right;
-var height_graph = 300 - margin_graph.top - margin_graph.bottom;
+var height_graph = 330 - margin_graph.top - margin_graph.bottom;
 //const scaleX =  rectan.width/ 1400000;
 //const scaleY = rectan.height/ 1310000;
 
@@ -134,8 +134,7 @@ function prepare_document(){ //function main(){}
         
         dessine_carte()
         update_carte_tour()
-        //zoom_carte()
-        clique_carte(premier_tour)
+        clique_carte()
     })
     
 }
@@ -152,52 +151,16 @@ function dessine_carte(){
         .append('path')
         .attr('d', geoPath)
 
-    d3.select('svg').call(zoom)
-
 }
-
-/*
-function zoom_carte(){
-
-var zoom = d3.zoom()
-      .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
-      .on("zoom", update_carte_tour());
-       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-      .call(zoom);
-
-    var svg = d3.select('svg');
-    var g = svg.append('g');
-
-    g.append('path')
-      .attr('d', geoPath)
-
-    svg.call(zoom().on('zoom', () => {
-          g.attr('transform', event.transform);
-        }));
-
-
-
-    svg.append("rect")
-      .attr("width", dx)
-      .attr("height", dy)
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-      .call(zoom);
-      
-    communes = d3.selectAll('path')
-    communes.data(cmnes.features)
-      .call(d3.zoom().on("zoom", function () {
-                svg .attr("transform", d3.event.transform)
-                }))
-              .append("g")
-} */
 
    
 function clique_carte(){
     communes = d3.selectAll('path')
     communes.data(cmnes.features)
     communes.on("click", function(d) {
+        d3.select('#Name_commune').remove();
+
+        d3.select('#barplot').remove();
         if (display_tour == 1){
             liste_candidat = ["arthaud","roussel","macron","lassale","lepen","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
         } else {
@@ -215,26 +178,18 @@ function clique_carte(){
         for(var i = 0; i < liste_candidat.length; i++) {
             results_com.push(prop_commune[liste_candidat[i]])
         }
-        console.log("resultats", results_com)
-        console.log("res", prop_commune)
+        
+        //console.log("resultats", results_com)
+        //console.log("res", prop_commune)
 
-        console.log(marqueur.__data__.properties.libgeo)
-        console.log(prop_commune["arthaud"])
+        //console.log(marqueur.__data__.properties.libgeo)
+        //console.log(prop_commune["arthaud"])
+    
         //Histogram in infobox communes
         //Basic elements of graph
         //Variables du graphique infobox-communes
         
-
-        //X scale for the graphic
-        var x = d3.scalePoint()
-                .domain(liste_candidat)
-                .range([0, width_graph])
-                .padding(0.4);
-
-        var y = d3
-           .scaleLinear()
-           .range([height_graph, 0])
-           .domain([0, d3.max(results_com)]);
+        
 
         //Top element of the bar plot
         var svg = d3.select("#infobox-communes")
@@ -246,15 +201,20 @@ function clique_carte(){
                     .attr("transform",
                         "translate(" + margin_graph.left + "," + margin_graph.top + ")");
 
-        svg.append("g")
-           .attr("transform", "translate(0," + height_graph + ")")
-           .call(d3.axisBottom(x))
-           .selectAll("text")
-           .attr("transform", "translate(-10,0)rotate(-45)")
-           .style("text-anchor", "end");
-        svg.append("g")
-           .call(d3.axisLeft(y));
-        
+        //X scale 
+        var x = d3.scalePoint()
+                .domain(liste_candidat)
+                .range([0, width_graph])
+                .padding(0.4);
+        //Y scale 
+        var y = d3
+           .scaleLinear()
+           .range([height_graph, 0])
+           .domain([0, d3.max(results_com)])
+           
+
+
+        // Création des rectangles
         svg
            .selectAll("rect")
            .data(results_com)
@@ -274,7 +234,57 @@ function clique_carte(){
             return height_graph - y(d)
            })
            .style("fill", "#69b3a2");
-        svg.exit().remove()
+
+        // ajouter axe X
+        svg.append("g")
+           .attr("transform", "translate(0," + height_graph + ")")
+           .call(d3.axisBottom(x))
+           .selectAll("text")
+           .attr("transform", "translate(-10,0)rotate(-45)")
+           .style("text-anchor", "end");
+        // ajouter axe Y
+        svg.append("g")
+           .call(d3.axisLeft(y))
+           .attr("id", "Yaxis");
+        
+        // ajouter titre 
+        svg.append("text")
+           .attr("x", width_graph/2)
+           .attr("y", 0-(margin_graph.top/2))
+           .attr("text-anchor", "left")
+           .style("font-size", "16px")
+           .style("text-decoration", "underline")
+           .text(marqueur.__data__.properties.libgeo)
+
+
+        svg
+           .selectAll("rect")
+           .data(results_com)
+           .transition()
+           .duration(100)
+           .attr("x", function(d,i){
+            return x(liste_candidat[i])
+           })
+           .attr("y", function(d){
+            return y(d)
+           })
+           //.attr("transform", function(d) {
+           //  return "translate(" + x(d.x0) + "," + y(d.length) + ")";
+           //})
+           .attr("width", 10)
+           .attr("height", function(d){
+            return height_graph - y(d)
+           })
+           .style("fill", "#69b3a2");
+
+        svg
+            .selectAll("rect")
+            .data(results_com)
+            .exit()
+            .transition()
+            .duration(100)
+            .remove();
+
     })
 }
 
