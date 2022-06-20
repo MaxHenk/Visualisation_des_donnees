@@ -21,30 +21,26 @@ var height_graph = 300 - margin_graph.top - margin_graph.bottom;
 //const scaleX =  rectan.width/ 1400000;
 //const scaleY = rectan.height/ 1310000;
 
-//fonction pour mettre le bouton en gras qui ne fonctionne pas 
-function changeStyle(value){
-    var element = document.getElementById(value);
-    element.style.fontWeight = "700";
-}
-//set a zoom
 
+//variables pour zoom
 const zoom = d3.zoom().on('zoom', handle_zoom)
 var scale = Math.min(scaleX, scaleY);
 
+//initialisation des données pour la carte
 var xmin = 84334; 
 var ymin = 6046258; 
 var dx = -1 * scale * xmin;
 var dy = scale * ymin + 600;
-
 const geoPath = d3.geoPath();
 
+//initialisation des varibales pour l'interactivité
 const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
-
 var display_tour = 1
 var display_cand = "macron"
 
 
-//fonctions appelée par les boutons
+//fonctions appelées par les boutons
+//pour l'interactivité du tour
 function set_tour(value){
     display_tour = value
     var elem
@@ -73,21 +69,26 @@ function set_tour(value){
     update_carte_tour()
 }
 
+//pour l'interactivité du choix du candidat
 function set_cand (value){
    
     display_cand = value
     update_carte_tour()
 }
 
+//essai de fonction pour le zoom à supprimer
 function handle_zoom(e){
     d3.select("#com").attr('transform', e.transform)
 }
 
+//fonction pour updater la carte
 //cette fonction part du principe que tous les datasets sont complets
 function update_carte_tour(){
     document.getElementById("progress").innerHTML = `Chargement en cours...`
 
     let counter = 0
+
+    //Représentation en d3 de la carte 
     d3.select("#com")
         .attr('transform', 
         `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
@@ -105,21 +106,21 @@ function update_carte_tour(){
                 const c = 255-(p * 255)
                 if (p < 0.05) { 
                     d = p* 100 * 255
-                    return `rgb(${d} ${c} ${c} )` // TODO: changer les couleurs  
+                    return `rgb(${d} ${c} ${c} )`   
                 }
                 return `rgb(255 ${c} ${c} )`    
             }catch (error){
                 // do nothing
             }
         })
-
+    //intéraction pour se représenter le chargement des informations
     document.getElementById("progress").innerHTML = `Chargement terminé`
     console.log("candidat:", display_cand, "   tour:", display_tour)
 }
 
 
 //initialisation et chargement des données
-function prepare_document(){ //function main(){}
+function prepare_document(){ 
     Promise.all([
         d3.json('Data/communes-cantons-quant-topo.json'),
         d3.csv('Data/premier.csv', d3.autoType),
@@ -129,18 +130,20 @@ function prepare_document(){ //function main(){}
         premier_tour = result[1]
         deuxieme_tour = result[2]
 
+
+        //transformation en topojson
         cmnes = topojson.feature(data, data.objects.communes)
         cantons = topojson.feature(data, data.objects.departements)
         
+        //appel des fonctions
         dessine_carte()
         update_carte_tour()
-        //zoom_carte()
         clique_carte(premier_tour)
     })
     
 }
 
-
+//Initialisation de la carte de base
 function dessine_carte(){
 
     d3.select('#com')
@@ -193,7 +196,7 @@ var zoom = d3.zoom()
               .append("g")
 } */
 
-   
+//intéractivité pour les histogrammes  
 function clique_carte(){
     communes = d3.selectAll('path')
     communes.data(cmnes.features)
