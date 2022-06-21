@@ -4,31 +4,32 @@ var data;
 var premier_tour;
 var deuxieme_tour;
 var cmnes; // supprimer
-var cantons; // TODO: appeler départements
 let chargement;
 let d = 255
 
 // TODO centrer carte
-const scaleX = 430 / 1160000;
-const scaleY = 600 / 1070000;
+//const scaleX = 430 / 1160000;
+//const scaleY = 600 / 1070000;
+const scaleX = document.getElementById('chloropleth').clientWidth/1200000;
+const scaleY = document.getElementById('chloropleth').clientHeight/1070000;
 //const elem = document.getElementById("chloropleth");
 //const rectan = elem.getBoundingClientRect();
+//const scaleX =  rectan.width/ 1200000;
+//const scaleY = rectan.height/ 1070000;
+
 
 //Size of bar plot
 var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
 var width_graph = 330 - margin_graph.left - margin_graph.right;
 var height_graph = 330 - margin_graph.top - margin_graph.bottom;
-//const scaleX =  rectan.width/ 1400000;
-//const scaleY = rectan.height/ 1310000;
+
 
 //fonction pour mettre le bouton en gras qui ne fonctionne pas 
 function changeStyle(value){
     var element = document.getElementById(value);
     element.style.fontWeight = "700";
 }
-//set a zoom
 
-const zoom = d3.zoom().on('zoom', handle_zoom)
 var scale = Math.min(scaleX, scaleY);
 
 var xmin = 84334; 
@@ -74,13 +75,8 @@ function set_tour(value){
 }
 
 function set_cand (value){
-   
     display_cand = value
     update_carte_tour()
-}
-
-function handle_zoom(e){
-    d3.select("#com").attr('transform', e.transform)
 }
 
 //cette fonction part du principe que tous les datasets sont complets
@@ -130,8 +126,7 @@ function prepare_document(){ //function main(){}
         deuxieme_tour = result[2]
 
         cmnes = topojson.feature(data, data.objects.communes)
-        cantons = topojson.feature(data, data.objects.departements)
-        
+
         dessine_carte()
         update_carte_tour()
         clique_carte()
@@ -286,6 +281,12 @@ function clique_carte(){
             .remove();
 
     })
+}
+
+function zoom_carte(){
+    g = d3.select('g')
+
+    let zoom = d3.zoom
 }
 
 prepare_document() //equivalent main()
