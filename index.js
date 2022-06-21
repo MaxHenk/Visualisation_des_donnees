@@ -1,9 +1,9 @@
 //définition des variables
 
-var data;
-var premier_tour;
-var deuxieme_tour;
-var cmnes; // supprimer
+let data;
+let premier_tour;
+let deuxieme_tour;
+let cmnes; // supprimer
 let chargement;
 let d = 255
 
@@ -13,36 +13,36 @@ const scaleY = document.getElementById('chloropleth').clientHeight/1070000;
 
 
 //Size of bar plot
-var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
-var width_graph = 330 - margin_graph.left - margin_graph.right;
-var height_graph = 360 - margin_graph.top - margin_graph.bottom;
+let margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
+let width_graph = 330 - margin_graph.left - margin_graph.right;
+let height_graph = 360 - margin_graph.top - margin_graph.bottom;
 
 
 //fonction pour mettre le bouton en gras qui ne fonctionne pas 
 function changeStyle(value){
-    var element = document.getElementById(value);
+    let element = document.getElementById(value);
     element.style.fontWeight = "700";
 }
 
-var scale = Math.min(scaleX, scaleY);
+let scale = Math.min(scaleX, scaleY);
 
-var xmin = 84334; 
-var ymin = 6046258; 
-var dx = -1 * scale * xmin;
-var dy = scale * ymin + document.getElementById('chloropleth').clientHeight;
+let xmin = 84334; 
+let ymin = 6046258; 
+let dx = -1 * scale * xmin;
+let dy = scale * ymin + document.getElementById('chloropleth').clientHeight;
 
 const geoPath = d3.geoPath();
 
 const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
 
-var display_tour = 1
-var display_cand = "macron"
+let display_tour = 1
+let display_cand = "macron"
 
 
 //fonctions appelée par les boutons
 function set_tour(value){
     display_tour = value
-    var elem
+    let elem
 
     for(let i=0; i< candidat_to_hide.length; i++){
         elem = document.getElementById(candidat_to_hide[i])
@@ -155,16 +155,16 @@ function clique_carte(){
         } else {
             liste_candidat = ["macron", "lepen"]
         }
-        var marqueur = d.target //créer un objet unique après chaque clic
-        var props = marqueur.__data__ //variable contenant les les propriétés de la commune
-        var prop_commune;
+        let marqueur = d.target //créer un objet unique après chaque clic
+        let props = marqueur.__data__ //variable contenant les les propriétés de la commune
+        let prop_commune;
         if (display_tour == 1){
             prop_commune = premier_tour.find(el => el.CodeInsee == props.properties.codgeo)
         } else {
             prop_commune = deuxieme_tour.find(el => el.CodeInsee == props.properties.codgeo)
         } //lien entre json et csv
-        var results_com = []
-        for(var i = 0; i < liste_candidat.length; i++) {
+        let results_com = []
+        for(let i = 0; i < liste_candidat.length; i++) {
             results_com.push(prop_commune[liste_candidat[i]])
         }
     
@@ -173,7 +173,7 @@ function clique_carte(){
         
 
         //Top element of the bar plot
-        var svg = d3.select("#infobox-communes")
+        let svg = d3.select("#infobox-communes")
                     .append("svg")
                     .attr("width", width_graph + margin_graph.left + margin_graph.right)
                     .attr("height", height_graph + margin_graph.top + margin_graph.bottom)
@@ -183,12 +183,12 @@ function clique_carte(){
                         "translate(" + margin_graph.left + "," + margin_graph.top + ")");
 
         //X scale 
-        var x = d3.scalePoint()
+        let x = d3.scalePoint()
                 .domain(liste_candidat)
                 .range([0, width_graph])
                 .padding(0.4);
         //Y scale 
-        var y = d3
+        let y = d3
            .scaleLinear()
            .range([height_graph, 0])
            .domain([0, d3.max(results_com)])
