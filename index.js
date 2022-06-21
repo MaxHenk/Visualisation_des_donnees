@@ -269,10 +269,5 @@ function clique_carte(){
     })
 }
 
-function zoom_carte(){
-    g = d3.select('g')
-
-    let zoom = d3.zoom
-}
 
 prepare_document() //equivalent main()
