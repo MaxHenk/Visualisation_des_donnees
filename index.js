@@ -7,21 +7,15 @@ var cmnes; // supprimer
 let chargement;
 let d = 255
 
-// TODO centrer carte
-//const scaleX = 430 / 1160000;
-//const scaleY = 600 / 1070000;
+
 const scaleX = document.getElementById('chloropleth').clientWidth/1200000;
 const scaleY = document.getElementById('chloropleth').clientHeight/1070000;
-//const elem = document.getElementById("chloropleth");
-//const rectan = elem.getBoundingClientRect();
-//const scaleX =  rectan.width/ 1200000;
-//const scaleY = rectan.height/ 1070000;
 
 
 //Size of bar plot
 var margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
 var width_graph = 330 - margin_graph.left - margin_graph.right;
-var height_graph = 330 - margin_graph.top - margin_graph.bottom;
+var height_graph = 360 - margin_graph.top - margin_graph.bottom;
 
 
 //fonction pour mettre le bouton en gras qui ne fonctionne pas 
@@ -35,7 +29,7 @@ var scale = Math.min(scaleX, scaleY);
 var xmin = 84334; 
 var ymin = 6046258; 
 var dx = -1 * scale * xmin;
-var dy = scale * ymin + 600;
+var dy = scale * ymin + document.getElementById('chloropleth').clientHeight;
 
 const geoPath = d3.geoPath();
 
@@ -136,7 +130,7 @@ function prepare_document(){ //function main(){}
 
 
 function dessine_carte(){
-
+    
     d3.select('#com')
         .attr('transform', 
             `matrix(${scale} 0 0 ${-1 * scale} ${dx} ${dy})`)
@@ -173,15 +167,7 @@ function clique_carte(){
         for(var i = 0; i < liste_candidat.length; i++) {
             results_com.push(prop_commune[liste_candidat[i]])
         }
-        
-        //console.log("resultats", results_com)
-        //console.log("res", prop_commune)
-
-        //console.log(marqueur.__data__.properties.libgeo)
-        //console.log(prop_commune["arthaud"])
     
-        //Histogram in infobox communes
-        //Basic elements of graph
         //Variables du graphique infobox-communes
         
         
