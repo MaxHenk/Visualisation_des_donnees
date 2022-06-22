@@ -67,7 +67,7 @@ ex : cd /Users/username/Desktop/Titre
 4. Le terminal devrait afficher la phrase suivante : `Serving HTTP on :: port 8000`
 5. Ouvrir un navigateur (Firefox, Chrome) et entrer l'adresse suivante : `localhost:8000`
 
-## Autors
+## Auteurs
 Ce projet a été réalisé par Max Henking et Axelle Bersier pour l'évaluation du cours de "Visualisation de données", un cours de Master donné par le professeur Isaac Pante à l'université de Lausanne au printemps 2022.
 
 ## Acknolegements
