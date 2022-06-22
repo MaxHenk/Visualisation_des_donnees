@@ -14,7 +14,6 @@ Les données statistiques sont disponibles sur [le site du gouvernement françai
 ## Outils
 
 <a href="https://d3js.org"><img src="https://d3js.org/logo.svg" align="left" hspace="10" vspace="6"></a>
-<img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" align="right" height="70">
 
 L'utilisation de d3 nous a permis la visualisation (cartes, barplot) et le chargement de données (géographiques et statistiques) pour visualiser les résultats des élections. 
 
