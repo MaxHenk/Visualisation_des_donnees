@@ -26,11 +26,13 @@ Chaque entrée dans le jeu de données géographiques correspond à une commune.
 - dep
 - reg
 - libgeo
-Chaque entrée dans le jeu de données statistiques correspond à une commune. Pour chaque entrée nous possédons les attributs suivants :
+
+ Chaque entrée dans le jeu de données statistiques correspond à une commune. Pour chaque entrée nous possédons les attributs suivants :
 - CodeInsee
 - CodeDepartement
 - Commune
 - Votants
+
 Aux attributs ci-dessus se rajoutent également le nombre de votants obtenus par les candidats dans la commune. Pour le premier tour la liste des candidats est :
 - arthaud
 - roussel
@@ -44,6 +46,7 @@ Aux attributs ci-dessus se rajoutent également le nombre de votants obtenus par
 - pecresse
 - poutou
 - dupontaignan
+
 Pour le second tour :
 - macron
 - lepen
