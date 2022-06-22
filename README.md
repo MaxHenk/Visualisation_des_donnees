@@ -8,6 +8,7 @@ Ce projet a pour but de visualiser les résultats au premier et deuxième tour d
 
 ## Base de données :
 Les données géographiques sont disponibles sur [le site du gouvernement français](https://www.data.gouv.fr/fr/).
+
 Les données statistiques sont disponibles sur [le site du gouvernement français](https://www.data.gouv.fr/fr/) et ont été nettoyées par Tristan Guerra en date du 15 avril 2022 pour le premier tour et du 25 avril 2022 pour le second. 
 
 
