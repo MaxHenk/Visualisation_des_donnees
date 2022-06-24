@@ -1,16 +1,13 @@
-# Visualisation_des_donnees - Projet de cartographie interactive sur les votations présidentielles françaises 2022
+# Visualisation des donnees - Projet de cartographie interactive sur les votations présidentielles françaises 2022
 ## Description :
-Ce projet a pour but de visualiser les résultats au premier et deuxième tour des présidentielles françaises. 
-
-
-
-
+Ce projet présente les résultats des élections présidentielles francçaises de 2022 de manière intéractive. Ainsi, il est possible de visualiser le pourcentage de personne ayant voté pour un candidat choisi par le biais d'un bouton par commune et en fonction du premier ou second tour.
 
 ## Base de données :
-Les données géographiques sont disponibles sur [le site du gouvernement français](https://www.data.gouv.fr/fr/).
+Les données géographiques proviennent du site suivant [le site du gouvernement français](https://www.data.gouv.fr/fr/).
 
 Les données statistiques sont disponibles sur [le site du gouvernement français](https://www.data.gouv.fr/fr/) et ont été nettoyées par Tristan Guerra en date du 15 avril 2022 pour le premier tour et du 25 avril 2022 pour le second. 
 
+![](img/illustration.png)
 
 ## Outils
 

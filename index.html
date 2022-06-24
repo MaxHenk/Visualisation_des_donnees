@@ -19,9 +19,6 @@
   <body id="MyBody">
     <h1>Résultats des élections présidentielles françaises </h1>
     <h2>division par commune et par tour des votations </h2>
-    <svg id="chloropleth">
-      <g id="com"></g>
-    </svg>
     <div class="tours">
       <input class="selector" type="button" value="1er tour" id="tour"
       onclick ="set_tour(1)" style="font-weight: bold;"/>
@@ -46,13 +43,25 @@
         </select>
     </div>
 
-      <div class="progress">
-          <h3 id="progress">Chargement en cours...</h3>
-      </div>
-    
-            <!--insérer les pourcentages-->
-    <div id="infobox-communes">
+    <div class="progress">
+        <h3 id="progress">Chargement en cours...</h3>
     </div>
+
+    <table>
+      <tr>
+        <td style="width: 70%;">
+          <div style="text-align: center;">
+            <svg id="chloropleth" style="width: 100%;">
+              <g id="com"></g>
+            </svg>
+          </div>
+        </td>
+        <td style="width: 30%;">
+          <div id="infobox-communes">
+          </div>
+        </td>
+      </tr>
+    </table>
 
     <div class="copyright">
       <p>Source des données:<br /> </p>

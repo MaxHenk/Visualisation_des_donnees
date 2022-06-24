@@ -39,6 +39,14 @@ const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","
 let display_tour = 1
 let display_cand = "macron"
 
+// function found on stackoverflo
+function capitalizeFirstLetter(str) {
+
+    // converting first letter to uppercase
+    const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+
+    return capitalized;
+}
 
 //fonctions appelées par les boutons
 //pour l'interactivité du tour
