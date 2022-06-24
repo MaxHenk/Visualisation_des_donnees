@@ -64,18 +64,6 @@ L'interface est composée de :
 - Un barplot apparaissant après avoir cliqué sur une commune de la carte choroplète
 - Une phrase permettant de comprendre si le chargement des communes est en cours ou terminé
 
-## Limites du projet et possibilités d'amélioration 
-Limites: 
-1. Tout d'abord, les communes prennent beaucoup de temps à charger, malgré l'utilisation de la librairie topojson- 
-2. Lors du chargement des données il est écrit "Chargement en cours...". Toutefois cela ne se reproduit par lors de l'attente au moment où l'utilisateur a cliqué sur un bouton. De plus, il aurait été intéressant de voir apparaître un bouton représentant le pourcentage de chargement du projet en temps réel. 
-3. Il aurait été intéressant de zoomer sur la carte, afin de pouvoir choisir une commune précise. Cependant, étant donné le temps de latence du chargement des communes, cela ne fonctionnait que très mal. 
-
-Améliorations: 
-1. Modifier les couleurs des communes, afin qu'elle soit selon une échelle plus esthétique
-2. Assortir la couleur des histogrammes avec les couleurs des communes 
-3. Centrer la carte, qui est l'information centrale et faire apparaître l'histogramme dans un coin de la carte
-4. Rendre le projet plus rapide 
-
 ## Utilisation
 Ce projet n'est pas sur un serveur, il faut donc l'afficher localement. Il existe de multiples méthodes pour faire cela. Toutefois, nous vous proposons une explication étape par étape ci-dessous pour afficher localement notre projet en utilisant python3.
 1. Télécharger le zip du projet, le décompresser
