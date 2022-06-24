@@ -3,7 +3,7 @@
 let data;
 let premier_tour;
 let deuxieme_tour;
-let cmnes; // supprimer
+let cmnes; 
 let chargement;
 let d = 255
 
@@ -12,44 +12,26 @@ const scaleX = document.getElementById('chloropleth').clientWidth/1200000;
 const scaleY = document.getElementById('chloropleth').clientHeight/1070000;
 
 
-//Size of bar plot
+//Taille du barplot
 let margin_graph = {top: 10, right: 30, bottom: 30, left: 40};
 let width_graph = 330 - margin_graph.left - margin_graph.right;
 let height_graph = 360 - margin_graph.top - margin_graph.bottom;
 
-
-//fonction pour mettre le bouton en gras qui ne fonctionne pas 
-function changeStyle(value){
-    let element = document.getElementById(value);
-    element.style.fontWeight = "700";
-}
-
+//Echelle de la carte
 let scale = Math.min(scaleX, scaleY);
-
 let xmin = 84334; 
 let ymin = 6046258; 
 let dx = -1 * scale * xmin;
 let dy = scale * ymin + document.getElementById('chloropleth').clientHeight;
-
 const geoPath = d3.geoPath();
 
 //initialisation des varibales pour l'interactivité
 const candidat_to_hide = ["arthaud", "roussel","lasalle","zemmour","melenchon","hidalgo","jadot","pecresse","poutou","dupontaignan"]
-
 let display_tour = 1
 let display_cand = "macron"
 
-// function found on stackoverflo
-function capitalizeFirstLetter(str) {
-
-    // converting first letter to uppercase
-    const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
-
-    return capitalized;
-}
-
-//fonctions appelées par les boutons
-//pour l'interactivité du tour
+//Fonctions appelées par les boutons
+//Pour l'interactivité du tour
 function set_tour(value){
     display_tour = value
     let elem
@@ -78,13 +60,13 @@ function set_tour(value){
     update_carte_tour()
 }
 
-//pour l'interactivité du choix du candidat
+//Pour l'interactivité du choix du candidat
 function set_cand (value){
     display_cand = value
     update_carte_tour()
 }
 
-//cette fonction part du principe que tous les datasets sont complets
+//Cette fonction part du principe que tous les datasets sont complets
 function update_carte_tour(){
     document.getElementById("progress").innerHTML = `Chargement en cours...`
 
@@ -115,13 +97,13 @@ function update_carte_tour(){
                 // do nothing
             }
         })
-    //intéraction pour se représenter le chargement des informations
+    //Intéraction pour se représenter le chargement des informations
     document.getElementById("progress").innerHTML = `Chargement terminé`
     console.log("candidat:", display_cand, "   tour:", display_tour)
 }
 
 
-//initialisation et chargement des données
+//Initialisation et chargement des données
 function prepare_document(){ 
     Promise.all([
         d3.json('Data/communes-cantons-quant-topo.json'),
@@ -133,7 +115,7 @@ function prepare_document(){
         deuxieme_tour = result[2]
 
 
-        //transformation en topojson
+        //Transformation en topojson
         cmnes = topojson.feature(data, data.objects.communes)
 
         dessine_carte()
@@ -177,7 +159,7 @@ function clique_carte(){
             prop_commune = premier_tour.find(el => el.CodeInsee == props.properties.codgeo)
         } else {
             prop_commune = deuxieme_tour.find(el => el.CodeInsee == props.properties.codgeo)
-        } //lien entre json et csv
+        } //Lien entre json et csv
         let results_com = []
         for(let i = 0; i < liste_candidat.length; i++) {
             results_com.push(prop_commune[liste_candidat[i]])
@@ -185,9 +167,8 @@ function clique_carte(){
     
         //Variables du graphique infobox-communes
         
-        
 
-        //Top element of the bar plot
+        //éléments en haut du barplot
         let svg = d3.select("#infobox-communes")
                     .append("svg")
                     .attr("width", width_graph + margin_graph.left + margin_graph.right)
@@ -197,18 +178,17 @@ function clique_carte(){
                     .attr("transform",
                         "translate(" + margin_graph.left + "," + margin_graph.top + ")");
 
-        //X scale 
+        //Echelle des X 
         let x = d3.scalePoint()
                 .domain(liste_candidat)
                 .range([0, width_graph])
                 .padding(0.4);
-        //Y scale 
+        //Echelle des Y 
         let y = d3
            .scaleLinear()
            .range([height_graph, 0])
            .domain([0, d3.max(results_com)])
            
-
 
         // Création des rectangles
         svg
@@ -222,28 +202,25 @@ function clique_carte(){
            .attr("y", function(d){
             return y(d)
            })
-           //.attr("transform", function(d) {
-           //  return "translate(" + x(d.x0) + "," + y(d.length) + ")";
-           //})
            .attr("width", 10)
            .attr("height", function(d){
             return height_graph - y(d)
            })
            .style("fill", "#69b3a2");
 
-        // ajouter axe X
+        // Ajouter axe X
         svg.append("g")
            .attr("transform", "translate(0," + height_graph + ")")
            .call(d3.axisBottom(x))
            .selectAll("text")
            .attr("transform", "translate(-10,0)rotate(-45)")
            .style("text-anchor", "end");
-        // ajouter axe Y
+        // Ajouter axe Y
         svg.append("g")
            .call(d3.axisLeft(y))
            .attr("id", "Yaxis");
         
-        // ajouter titre 
+        // Ajouter titre 
         svg.append("text")
            .attr("x", width_graph/2)
            .attr("y", 0-(margin_graph.top/2))
@@ -264,9 +241,6 @@ function clique_carte(){
            .attr("y", function(d){
             return y(d)
            })
-           //.attr("transform", function(d) {
-           //  return "translate(" + x(d.x0) + "," + y(d.length) + ")";
-           //})
            .attr("width", 10)
            .attr("height", function(d){
             return height_graph - y(d)
