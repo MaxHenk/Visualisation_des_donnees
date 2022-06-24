@@ -38,13 +38,9 @@ h2 {
   top: 100px;
   left: 20px;
   width: calc(75vw - 200px); 
-  height: calc(100vh - 110px);
+  height: calc(90vh - 110px);
   min-height: 500px;
-  border: 1px solid #666;
 }
-
-
-
 
 .stats-descriptives {
   position: absolute;
@@ -58,16 +54,15 @@ h2 {
 
 #infobox-communes{
   position: absolute;
-  top: 360px;
+  top: 160px;
   left: calc(75vw - 170px);
   width: 330px;
-  height: 300px;
-  background-color: #bdbdbd;
+  height: 360px;
 }
 
 .copyright {
   position: absolute;
-  bottom: 0;
+  top: 860px;
   font-size: 10 px;
   margin-bottom: 7px;
 }
