@@ -89,7 +89,7 @@ function update_carte_tour(){
                 let p = votes_commune[display_cand] / votes_commune.Votants   
                 const c = 255-(p * 255)
                 if (p < 0.05) { 
-                    d = p* 100 * 255
+                    d = p* 10 * 255
                     return `rgb(${d} ${c} ${c} )`   
                 }
                 return `rgb(255 ${c} ${c} )`    

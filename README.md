@@ -1,6 +1,6 @@
-# Visualisation des donnees - Projet de cartographie interactive sur les votations présidentielles françaises 2022
+# Visualisation des données - Projet de cartographie interactive sur les votations présidentielles françaises 2022
 
-Ce projet présente les résultats des élections présidentielles francçaises de 2022 de manière intéractive. Ainsi, il est possible de visualiser le pourcentage de personne ayant voté pour un candidat choisi par le biais d'un bouton par commune et en fonction du premier ou second tour.
+Ce projet présente les résultats des élections présidentielles françaises de 2022 de manière intéractive. Ainsi, il est possible de visualiser le pourcentage de personne ayant voté pour un candidat choisi par le biais d'un bouton par commune et en fonction du premier ou second tour.
 
 ## Base de données
 Les données géographiques proviennent du site suivant [le site du gouvernement français](https://www.data.gouv.fr/fr/).
@@ -8,7 +8,7 @@ Les données géographiques proviennent du site suivant [le site du gouvernement
 Les données statistiques sont disponibles sur [le site du gouvernement français](https://www.data.gouv.fr/fr/) et ont été nettoyées par Tristan Guerra en date du 15 avril 2022 pour le premier tour et du 25 avril 2022 pour le second. 
 
 ## Description des fonctionnalités du projet 
-Ainsi les parties intéractives sont les suivantes : 
+Ainsi les parties interactives sont les suivantes : 
 - Pendant le temps où les communes françaises chargent, il est écrit "Chargement en cours..." puis "Chargement terminé" quand cela est fini. 
 - Il est possible de choisir entre le premier et le deuxième tour et l'utilisateur comprend cette information, car le bouton se met en gras. 
 - Le candidat peut être choisi et la liste est différente entre le premier et le deuxième tour. 
@@ -58,10 +58,10 @@ Pour le second tour :
 
 ## Interface
 L'interface est composée de :
-- Une carte choroplète représentant le pourcentage de votants selon le candidat choisi par commune
+- Une carte choroplèthe représentant le pourcentage de votants selon le candidat choisi par commune
 - Un bouton permettant de changer de tour qui modifie l'affichage de la carte et les données considérées
 - Un menu déroulant permettant de changer le candidat affiché
-- Un barplot apparaissant après avoir cliqué sur une commune de la carte choroplète
+- Un barplot apparaissant après avoir cliqué sur une commune de la carte choroplèthe
 - Une phrase permettant de comprendre si le chargement des communes est en cours ou terminé
 
 ## Utilisation

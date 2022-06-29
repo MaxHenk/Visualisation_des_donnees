@@ -42,7 +42,28 @@
           <option id="dupontaignan" value="dupontaignan">Nicolas Dupont-Aignan</option>
         </select>
     </div>
+    <div id ="scale">
+      <p><b>Pourcentage de votes pour le candidat </b></p>
+      <svg width="180" height="150">
+        <rect x="1" y="10" width="29" height="22" fill="#ff0000" stroke="#000000" strokeWidth="0.5" />
+        <rect x="1" y="35" width="29" height="22" fill="#FF7F7F" stroke="#000000" strokeWidth="0.5" />
+        <rect x="1" y="60" width="29" height="22" fill="#FFFFFF" stroke="#000000" strokeWidth="0.5" />
+        <rect x="1" y="85" width="29" height="22" fill="#AFFFFF" stroke="#000000" strokeWidth="0.5" />
+        <rect x="1" y="110" width="29" height="22" fill="#00FFFF" stroke="#000000" strokeWidth="0.5" />
 
+        <line x1="30" y1="10" x2="35" y2="10" strokeWidth="0.5" stroke="#000000" />
+        <line x1="30" y1="35" x2="35" y2="35" strokeWidth="0.5" stroke="#000000" />
+        <line x1="30" y1="60" x2="35" y2="60" strokeWidth="0.5" stroke="#000000" />
+        <line x1="30" y1="85" x2="35" y2="85" strokeWidth="0.5" stroke="#000000" />
+        <line x1="30" y1="132" x2="35" y2="132" strokeWidth="0.5" stroke="#000000" />
+
+        <text x="38" y="15">100 %</text>
+        <text x="38" y="40">50 %</text>
+        <text x="38" y="65">> 5 %</text>
+        <text x="38" y="90">] 0 ; 5] </text>
+        <text x="38" y="137">0 %</text>
+      </svg>
+      </div>
     <div class="progress">
         <h3 id="progress">Chargement en cours...</h3>
     </div>
