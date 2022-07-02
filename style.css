@@ -20,7 +20,7 @@ h2 {
 .tours {
   position: absolute;
   top: 75px;
-  left: calc(75vw - 350px);
+  left: 500px;
   width: 330px;
   height: 50px;
 }
@@ -28,7 +28,7 @@ h2 {
 .liste-candidats {
   position: absolute;
   top: 75px;
-  left: calc(75vw - 100px);
+  left: 650px;
   width: 330px;
   height: 50px;
 }
@@ -37,13 +37,14 @@ h2 {
   position: absolute;
   left: 20px;
   min-height: 500px;
-  width: 45vw;
+  width: 600px;
+  height: 500px;
 }
 
 #infobox-communes{
   position: absolute;
   top: 200px;
-  left: 50vw;
+  left: 620px;
   height: 400px;
 }
 
@@ -54,7 +55,7 @@ h2 {
 #scale {
   position: absolute;
   top: 580px;
-  left: 50vw;
+  left: 620px;
 }
 .copyright {
   position: absolute;
